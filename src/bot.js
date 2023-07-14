@@ -64,7 +64,7 @@ client.on('interactionCreate', async (interaction) => {
 	const { commandName } = interaction;
 
 	if (commandName === 'hello') {
-		await interaction.reply('test de push');
+		await interaction.reply('test de push sur le serveur');
 	}
 	else if (commandName === 'server') {
 		await interaction.reply('Server info.');
