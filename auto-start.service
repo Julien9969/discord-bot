@@ -1,0 +1,12 @@
+[Unit]
+Description=My Web App
+After=network.target
+
+[Service]
+ExecStart=/home/trizotto/discord-bot/npm run start
+WorkingDirectory=/home/trizotto/discord-bot
+User=trizotto
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
