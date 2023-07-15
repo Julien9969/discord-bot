@@ -64,10 +64,10 @@ client.on('interactionCreate', async (interaction) => {
 	const { commandName } = interaction;
 
 	if (commandName === 'hello') {
-		await interaction.reply('Bonjour! boto');
+		await interaction.reply('Bonjour!');
 	}
 	else if (commandName === 'server') {
-		await interaction.reply('Server info.');
+		await interaction.reply('TODO: server info');
 	}
 	else if (commandName === 'react') {
 		await addSmiley(interaction);
