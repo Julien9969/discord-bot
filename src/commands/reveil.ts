@@ -54,5 +54,5 @@ export async function execute(interaction: CommandInteraction) {
     //     // connection.destroy();
     //   }
     // });
-    await interaction.channel?.send('je reveil bilal !');
+    await interaction.channel?.send('Je reveil bilal !');
 }
