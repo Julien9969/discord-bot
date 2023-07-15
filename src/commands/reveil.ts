@@ -27,7 +27,7 @@ export async function execute(interaction: CommandInteraction) {
     // Play the song
     const player = createAudioPlayer();
     connection.subscribe(player); 
-    const resource = createAudioResource('.\\assets\\ring.mp3', {
+    const resource = createAudioResource('./assets/ring.mp3', {
         inputType: StreamType.Arbitrary,
         silencePaddingFrames: 1000,
         inlineVolume: true,
