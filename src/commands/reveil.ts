@@ -7,10 +7,14 @@ export const data = new SlashCommandBuilder()
   .setDescription("Reveil bilal");
 
 export async function execute(interaction: CommandInteraction) {
-    
     if (!interaction.member) {
       return;
     }
+
+    if (interaction.user.username == "bilaltlili#7531") {
+      return interaction.reply("On te réveil pas si tu dors pas !");
+    }
+
     console.log("reveil");
     const voiceChannel: VoiceBasedChannel | null = (interaction.member as GuildMember).voice.channel;
     if (!voiceChannel) {
