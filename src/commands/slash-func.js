@@ -5,11 +5,13 @@ export async function addSmiley(message) {
 	const channel = message.channel;
 
 	// Fetch the latest message in the channel
-	const messages = await channel.messages.fetch({ limit: 1 });
+	const messages = await channel.messages.fetch({ limit: 2 });
 	const latestMessage = messages.first();
+  const secondsMessages = messages[1];
 
 	// Add a reaction to the latest message
 	latestMessage.react('👍');
+  secondsMessages.react('🫡');
 }
 
 export async function reveil(message, command) {
