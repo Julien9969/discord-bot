@@ -5,5 +5,5 @@ import * as react from "./react";
 export const commands = {
   ping,
   reveil,
-  react
+  react,
 };
