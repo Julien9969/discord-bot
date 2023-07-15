@@ -67,7 +67,7 @@ client.on('interactionCreate', async (interaction) => {
 		await interaction.reply('Bonjour!');
 	}
 	else if (commandName === 'server') {
-		await interaction.reply('TODO: server info !');
+		await interaction.reply('TODO: server info !!!');
 	}
 	else if (commandName === 'react') {
 		await addSmiley(interaction);
