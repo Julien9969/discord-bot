@@ -10,8 +10,8 @@ export async function execute(interaction: CommandInteraction) {
     if (!interaction.member) {
       return;
     }
-
-    if (interaction.user.username == "bilaltlili#7531") {
+    console.log(interaction.user);
+    if (interaction.user.username == "bilaltlili") {
       return interaction.reply("On te réveil pas si tu dors pas !");
     }
 
