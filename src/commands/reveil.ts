@@ -1,5 +1,5 @@
-import { CommandInteraction, GuildMember, SlashCommandBuilder, VoiceBasedChannel, Events, ButtonBuilder, ButtonStyle, ActionRowBuilder, TextInputStyle, ComponentType, AnyAPIActionRowComponent, GuildEmoji } from "discord.js";
-import { joinVoiceChannel, createAudioPlayer, createAudioResource, getVoiceConnection, StreamType, AudioPlayerState, AudioPlayerStatus, PlayerSubscription } from "@discordjs/voice";
+import { CommandInteraction, GuildMember, SlashCommandBuilder, VoiceBasedChannel, ButtonBuilder, ButtonStyle, ActionRowBuilder, GuildEmoji } from "discord.js";
+import { joinVoiceChannel, createAudioPlayer, createAudioResource, StreamType, AudioPlayerState, AudioPlayerStatus, PlayerSubscription } from "@discordjs/voice";
 
 
 export const data = new SlashCommandBuilder()

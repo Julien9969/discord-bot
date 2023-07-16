@@ -12,6 +12,7 @@ const client = new Client({ intents: [
 	GatewayIntentBits.GuildVoiceStates
 ] });
 
+
 client.once(Events.ClientReady, async () => {
   console.log("Discord bot is ready! 🤖");
   const guild = client.guilds.cache.first();
@@ -19,7 +20,6 @@ client.once(Events.ClientReady, async () => {
     console.log("No guilds found");
     return;
   }
-
   await deployCommands({ guildId: guild.id });
   console.log(`Joined a new guild: ${guild.name}!`);
 });
