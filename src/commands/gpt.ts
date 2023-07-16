@@ -24,7 +24,7 @@ export async function execute(interaction: CommandInteraction) {
     const prompt = interaction.options.get("prompt");
     console.log("prompt : ", prompt?.value);
     
-    await interaction.reply("response in progress...");
+    await interaction.reply("Je réflechie...");
     
     const res = await askGPT(prompt?.value as string);
     
