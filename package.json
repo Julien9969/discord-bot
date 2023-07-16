@@ -13,10 +13,12 @@
     "type": "git",
     "url": "https://github.com/fellipeutaka/discord-bot-template.git"
   },
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "node .",
+    "start2": "tsx src/index.ts --minify",
     "build": "tsup src/index.ts --minify",
     "format": "prettier --write \"**/*.{json,ts}\"",
     "lint": "eslint . --ext ts --fix"
@@ -30,6 +32,8 @@
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "ffmpeg-static": "^5.1.0",
+    "fix-path": "^3.0.0",
+    "node-fetch": "^2.6.12",
     "ora": "^6.3.1",
     "sodium-native": "^4.0.4"
   },
