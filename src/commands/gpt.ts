@@ -1,4 +1,4 @@
-import { CommandInteraction, SlashCommandBuilder } from "discord.js";
+import { CacheType, CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { ChatGPTUnofficialProxyAPI } from "chatgpt";
 import { oraPromise } from "ora";
 import { config } from "../config";
@@ -26,20 +26,28 @@ export async function execute(interaction: CommandInteraction) {
     
     await interaction.reply("Je réflechie...");
     
-    const res = await askGPT(prompt?.value as string);
+    const res = await askGPT(prompt?.value as string, interaction);
     
     return await interaction.editReply(res);
 }
 
-async function askGPT(prompt: string) {
+async function askGPT(prompt: string, i: CommandInteraction<CacheType>) {
     const api = new ChatGPTUnofficialProxyAPI({
         accessToken: config.GPT_API,
         apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
     });
     
-    const res = await oraPromise(api.sendMessage(prompt), {
-        text: prompt
-    });
+    // const res = await oraPromise(api.sendMessage(prompt), {
+    //     text: prompt
+    // });
+    let count = 0;
+    const res = await api.sendMessage(prompt, {
+        onProgress: (partialResponse) => {
+            count++;
+            if (count % 10 === 0) {
+              i.editReply(partialResponse.text);
+        }
+    }});
     console.log(res);
     return res.text;
 }
