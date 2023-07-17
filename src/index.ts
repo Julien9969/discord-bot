@@ -1,4 +1,4 @@
-import { Client, Events, IntentsBitField, GatewayIntentBits } from "discord.js";
+import { Client, Events, IntentsBitField, GatewayIntentBits, ActivityType } from "discord.js";
 import { config } from "./config";
 import { commands } from "./commands";
 import { deployCommands } from "./deploy-commands";
@@ -22,6 +22,12 @@ client.once(Events.ClientReady, async () => {
   }
   await deployCommands({ guildId: guild.id });
   console.log(`Joined a new guild: ${guild.name}!`);
+
+  client.user?.setActivity("Démonter sa tente", { 
+    type: ActivityType.Streaming,
+    name: "Démonter sa tente",
+    url: "https://www.youtube.com/watch?v=uO8SeXh_LaA"
+  });
 });
 
 client.on(Events.GuildCreate, async (guild) => {
