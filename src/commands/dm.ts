@@ -16,10 +16,6 @@ export async function execute(interaction: CommandInteraction) {
         return;
     }
 
-    // console.log("userToDM : ", userToDM.value);
-    // const targetUser = interaction.client.users.cache.get(userToDM.value as string);
-    // console.log("targetUser : ", targetUser);
-
     const stopButton = new ButtonBuilder()
     .setCustomId("plus-dix")
     .setLabel("+ 10 msg")
@@ -53,9 +49,17 @@ export async function execute(interaction: CommandInteraction) {
             componentType: ComponentType.Button,
             filter: (i) => i.user.id === interaction.user.id,
         });
+        let time = setTimeout(async () => {
+            await interaction.editReply({ content: "Arrêt automatique", components: [] });
+        }, 10_000);
 
         collector.on("collect", async (i) => {
             if (i.customId === "plus-dix") {
+                clearTimeout(time);
+                time = setTimeout(async () => {
+                    await interaction.editReply({ content: "Arrêt automatique", components: [] });
+                }, 10_000);
+
                 count += 10;
                 await i.update({ content: `${count} DM are send`, components: [row]});
                 for (let index = 0; index < 10; index++) {
