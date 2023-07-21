@@ -48,6 +48,10 @@ client.on("interactionCreate", async (interaction) => {
     }
     
     if (interaction.isButton()) {
+      if (interaction.customId === "stop-button") {
+        return;
+      }
+
       await interaction.deferReply({ ephemeral: true });
       const role = interaction.guild?.roles.cache.get(interaction.customId);
       console.log("role : ", role);
