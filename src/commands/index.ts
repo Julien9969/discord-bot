@@ -3,6 +3,7 @@ import * as reveil from "./reveil";
 import * as react from "./react";
 import * as dm from "./dm";
 import * as gpt from "./gpt";
+import * as hymne from "./hymne";
 
 export const commands = {
   ping,
@@ -10,4 +11,5 @@ export const commands = {
   react,
   dm,
   gpt,
+  hymne
 };

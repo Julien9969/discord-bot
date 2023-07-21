@@ -1,6 +1,6 @@
 import { CacheType, CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { ChatGPTUnofficialProxyAPI } from "chatgpt";
-import { oraPromise } from "ora";
+// import { oraPromise } from "ora";
 import { config } from "../config";
 
 
