@@ -1,4 +1,4 @@
-import { Client, Events, IntentsBitField, GatewayIntentBits, ActivityType } from "discord.js";
+import { Client, Events, IntentsBitField, GatewayIntentBits, ActivityType, GuildMemberRoleManager, ButtonInteraction } from "discord.js";
 import { config } from "./config";
 import { commands } from "./commands";
 import { deployCommands } from "./deploy-commands";
@@ -38,12 +38,42 @@ client.on(Events.GuildCreate, async (guild) => {
 });
 
 client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isCommand()) {
-    return;
-  }
-  const { commandName } = interaction;
-  if (commands[commandName as keyof typeof commands]) {
-    commands[commandName as keyof typeof commands].execute(interaction);
+  try {
+    if (interaction.isCommand()) {
+      const { commandName } = interaction;
+      if (commands[commandName as keyof typeof commands]) {
+        commands[commandName as keyof typeof commands].execute(interaction);
+      }
+      return;
+    }
+    
+    if (interaction.isButton()) {
+      await interaction.deferReply({ ephemeral: true });
+      const role = interaction.guild?.roles.cache.get(interaction.customId);
+      console.log("role : ", role);
+      if (!role) {
+        interaction.editReply({content: "Role not found"});
+        return;
+      }
+
+      const hasRole = (interaction.member?.roles as GuildMemberRoleManager).cache.has(role.id);
+      console.log("hasRole : ", hasRole);
+      if (hasRole) {
+        await (interaction.member?.roles as GuildMemberRoleManager).remove(role);
+        interaction.editReply({content: `Tu n'as plus le rôle ${role.name}`});
+        return;
+      }
+
+      await (interaction.member?.roles as GuildMemberRoleManager).add(role);
+      interaction.editReply({content: `Tu as maintenant le rôle ${role.name}`});
+      if ((interaction.member?.roles as GuildMemberRoleManager).cache.has("1033459304071712819")) {
+        await (interaction.member?.roles as GuildMemberRoleManager).remove("1033459304071712819");
+      }
+      return;
+    }
+  } catch (error) {
+    (interaction as ButtonInteraction).editReply({content: "Une erreur est survenue"});
+    console.log("error : ", error);
   }
 });
 
