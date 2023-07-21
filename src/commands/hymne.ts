@@ -88,10 +88,8 @@ export async function execute(interaction: CommandInteraction) {
       });
       const confirmation = await rep?.awaitMessageComponent({ time: 61_000 });
       if (confirmation?.customId === "stop-button") {
-        setTimeout(() => {
-          connection.destroy();
-          interaction.editReply({ content: "Réveil arreté", components: [] });
-        }, 4000);
+        interaction.editReply({ content: "Hymne arreté", components: [] });
+        connection.destroy();
       }
     } catch (e: unknown) {
       await interaction.editReply({ content: "Arrête automatique", components: [] });

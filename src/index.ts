@@ -1,4 +1,4 @@
-import { Client, Events, IntentsBitField, GatewayIntentBits, ActivityType, GuildMemberRoleManager, ButtonInteraction } from "discord.js";
+import { Client, Events, IntentsBitField, GatewayIntentBits, ActivityType, GuildMemberRoleManager, ButtonInteraction, Interaction, BaseInteraction } from "discord.js";
 import { config } from "./config";
 import { commands } from "./commands";
 import { deployCommands } from "./deploy-commands";
@@ -37,8 +37,11 @@ client.on(Events.GuildCreate, async (guild) => {
   // resiter here when bot is over
 });
 
-client.on("interactionCreate", async (interaction) => {
+client.on("interactionCreate", async (interaction: any) => {
   try {
+    if (interaction.customId === "stop-button") {
+      return;
+    }
     if (interaction.isCommand()) {
       const { commandName } = interaction;
       if (commands[commandName as keyof typeof commands]) {
@@ -46,12 +49,9 @@ client.on("interactionCreate", async (interaction) => {
       }
       return;
     }
-    
-    if (interaction.isButton()) {
-      if (interaction.customId === "stop-button") {
-        return;
-      }
 
+    if (interaction.isButton()) {
+      
       await interaction.deferReply({ ephemeral: true });
       const role = interaction.guild?.roles.cache.get(interaction.customId);
       console.log("role : ", role);
