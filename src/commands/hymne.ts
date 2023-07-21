@@ -82,7 +82,7 @@ export async function execute(interaction: CommandInteraction) {
     
     try {
       const rep = await interaction.reply({
-        content: "Scoot !",
+        content: "Hymne Scoot !",
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         components: [row] as any,
       });
