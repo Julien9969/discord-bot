@@ -18,7 +18,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "node .",
-    "start2": "tsx src/index.ts --minify",
+    "prod": "tsx src/index.ts --minify",
     "build": "tsup src/index.ts --minify",
     "format": "prettier --write \"**/*.{json,ts}\"",
     "lint": "eslint . --ext ts --fix"

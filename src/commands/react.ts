@@ -15,7 +15,7 @@ export async function execute(interaction: CommandInteraction) {
     const messages = await channel.messages.fetch({ limit: 2 });
 
     const latestMessage = messages.first();
-    messages.forEach(message => {
+    messages.forEach((message) => {
         console.log(message.content);
         message.react('👍');
     });

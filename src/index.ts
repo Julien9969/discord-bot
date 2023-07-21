@@ -2,6 +2,7 @@ import { Client, Events, IntentsBitField, GatewayIntentBits, ActivityType } from
 import { config } from "./config";
 import { commands } from "./commands";
 import { deployCommands } from "./deploy-commands";
+import { createRoleButtons } from "./messages/roles-messages";
 
 const client = new Client({ intents: [
 	IntentsBitField.Flags.Guilds,
@@ -13,7 +14,7 @@ const client = new Client({ intents: [
 ] });
 
 
-client.once(Events.ClientReady, async () => {
+client.once(Events.ClientReady, async (c: Client<true>) => {
   console.log("Discord bot is ready! 🤖");
   const guild = client.guilds.cache.first();
   if (!guild) {
@@ -28,6 +29,7 @@ client.once(Events.ClientReady, async () => {
     name: "Démonter sa tente",
     url: "https://www.youtube.com/watch?v=uO8SeXh_LaA"
   });
+  createRoleButtons(c);
 });
 
 client.on(Events.GuildCreate, async (guild) => {
