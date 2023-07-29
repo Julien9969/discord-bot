@@ -55,31 +55,6 @@ client.on("interactionCreate", async (interaction: any) => {
       return;
     }
 
-    if (interaction.isButton()) {
-      
-      await interaction.deferReply({ ephemeral: true });
-      const role = interaction.guild?.roles.cache.get(interaction.customId);
-      console.log("role : ", role);
-      if (!role) {
-        interaction.editReply({content: "Role not found"});
-        return;
-      }
-
-      const hasRole = (interaction.member?.roles as GuildMemberRoleManager).cache.has(role.id);
-      console.log("hasRole : ", hasRole);
-      if (hasRole) {
-        await (interaction.member?.roles as GuildMemberRoleManager).remove(role);
-        interaction.editReply({content: `Tu n'as plus le rôle ${role.name}`});
-        return;
-      }
-
-      await (interaction.member?.roles as GuildMemberRoleManager).add(role);
-      interaction.editReply({content: `Tu as maintenant le rôle ${role.name}`});
-      if ((interaction.member?.roles as GuildMemberRoleManager).cache.has("1033459304071712819")) {
-        await (interaction.member?.roles as GuildMemberRoleManager).remove("1033459304071712819");
-      }
-      return;
-    }
   } catch (error) {
     (interaction as ButtonInteraction).editReply({content: "Une erreur est survenue"});
     console.log("error : ", error);
