@@ -2,9 +2,9 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const { TOKEN, CLIENT_ID, MAIL, PASSWORD, GPT_API } = process.env;
+const { TOKEN, CLIENT_ID, MAIL, PASSWORD, pyPath } = process.env;
 
-if (!TOKEN || !CLIENT_ID || !MAIL || !PASSWORD || !GPT_API) {
+if (!TOKEN || !CLIENT_ID || !MAIL || !PASSWORD) {
   throw new Error("Missing environment variables");
 }
 
@@ -13,6 +13,6 @@ export const config = {
   CLIENT_ID,
   MAIL,
   PASSWORD,
-  GPT_API,
-  authGPT: ""
+  authGPT: "",
+  pyPath
 };

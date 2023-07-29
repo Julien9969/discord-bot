@@ -4,6 +4,7 @@ import * as react from "./react";
 import * as dm from "./dm";
 import * as gpt from "./gpt";
 import * as hymne from "./hymne";
+import * as gptv2 from "./gptv2";
 
 export const commands = {
   ping,
@@ -11,5 +12,6 @@ export const commands = {
   react,
   dm,
   gpt,
-  hymne
+  hymne,
+  gptv2
 };

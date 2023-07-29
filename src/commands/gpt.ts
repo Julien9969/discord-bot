@@ -18,7 +18,7 @@ export async function execute(interaction: CommandInteraction) {
         return interaction.reply("Cette commande est disponible que dans le channel Chat-GPT");
     }
 
-    if (config.GPT_API === "") {
+    if (config.authGPT === "") {
         return interaction.reply("Impossible de se connecter à l'API GPT-3");
     }
     const prompt = interaction.options.get("prompt");
@@ -33,7 +33,7 @@ export async function execute(interaction: CommandInteraction) {
 
 async function askGPT(prompt: string, i: CommandInteraction<CacheType>) {
     const api = new ChatGPTUnofficialProxyAPI({
-        accessToken: config.GPT_API,
+        accessToken: config.authGPT,
         apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
     });
     

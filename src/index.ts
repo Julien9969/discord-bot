@@ -3,6 +3,8 @@ import { config } from "./config";
 import { commands } from "./commands";
 import { deployCommands } from "./deploy-commands";
 import { createRoleButtons } from "./messages/roles-messages";
+// import { Authenticator } from "./GPT-token/token-gpt";
+import { getToken } from "./GPT-token/token-pyFile";
 
 const client = new Client({ intents: [
 	IntentsBitField.Flags.Guilds,
@@ -30,6 +32,9 @@ client.once(Events.ClientReady, async (c: Client<true>) => {
     url: "https://www.youtube.com/watch?v=uO8SeXh_LaA"
   });
   createRoleButtons(c);
+
+  getToken();
+  
 });
 
 client.on(Events.GuildCreate, async (guild) => {
