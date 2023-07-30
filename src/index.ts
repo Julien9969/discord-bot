@@ -1,4 +1,4 @@
-import { Client, Events, IntentsBitField, GatewayIntentBits, ActivityType, GuildMemberRoleManager, ButtonInteraction, Interaction, BaseInteraction } from "discord.js";
+import { Client, Events, IntentsBitField, GatewayIntentBits, ActivityType, ButtonInteraction } from "discord.js";
 import { config } from "./config";
 import { commands } from "./commands";
 import { deployCommands } from "./deploy-commands";
