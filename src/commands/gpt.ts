@@ -62,8 +62,8 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
 async function askGPT(prompt: string, i: CommandInteraction<CacheType> | ButtonInteraction<CacheType>, prevRep?: ChatMessage): Promise<ChatMessage> {
     const api = new ChatGPTUnofficialProxyAPI({
         accessToken: config.authGPT,
-        // apiReverseProxyUrl: "https://api.pawan.krd/backend-api/conversation"
-        apiReverseProxyUrl: "http://localhost:9090/api/"
+        // apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
+        apiReverseProxyUrl: "http://localhost:9090/api/conversation"
     });
     
     let count = 0;
