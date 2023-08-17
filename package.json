@@ -18,6 +18,8 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "node .",
+    "proxy:install": "make install",
+    "proxy": "ChatGPTProxy",
     "prod": "tsx src/index.ts --minify",
     "build": "tsup src/index.ts --minify",
     "format": "prettier --write \"**/*.{json,ts}\"",
