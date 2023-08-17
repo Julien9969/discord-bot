@@ -23,7 +23,7 @@ client.once(Events.ClientReady, async (c: Client<true>) => {
     console.log("No guilds found");
     return;
   }
-  await deployCommands({ guildId: guild.id });
+  // await deployCommands({ guildId: guild.id });
   console.log(`Joined a new guild: ${guild.name}!`);
 
   client.user?.setActivity("Démonter sa tente", { 
@@ -43,6 +43,7 @@ client.on(Events.GuildCreate, async (guild) => {
 });
 
 client.on("interactionCreate", async (interaction: any) => {
+  console.log("31");
   try {
     if (interaction.customId === "stop-button") {
       return;
@@ -61,4 +62,18 @@ client.on("interactionCreate", async (interaction: any) => {
   }
 });
 
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isModalSubmit()) return;
+  if (interaction.customId === "myModal") {
+    await interaction.reply({ content: "Your submission was received successfully!" });
+
+    const favoriteColor = interaction.fields.getTextInputValue("favoriteColorInput");
+    const hobbies = interaction.fields.getTextInputValue("hobbiesInput");
+    console.log({ favoriteColor, hobbies });
+  }
+});
+
+
 client.login(config.TOKEN);
+
+export { client };
