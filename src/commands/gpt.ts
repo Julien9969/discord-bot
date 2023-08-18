@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, CacheType, CommandInteraction, ComponentType, Message, ModalActionRowComponentBuilder, ModalBuilder, SlashCommandBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, CacheType, CommandInteraction, ComponentType, Message, ModalActionRowComponentBuilder, ModalBuilder, ModalMessageModalSubmitInteraction, ModalSubmitInteraction, SlashCommandBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 import { ChatGPTUnofficialProxyAPI, ChatMessage } from "chatgpt";
 // import { oraPromise } from "ora";
 import { config } from "../config";
 import { oraPromise } from "ora";
-import { client } from "../index";
 
+let gptRep: ChatMessage;
 
 export const data = new SlashCommandBuilder()
   .setName("gpt")
@@ -30,7 +30,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     
     await interaction.reply("Je réflechie...");
     
-    const gptRep = await askGPT(prompt?.value as string, interaction);
+    gptRep = await askGPT(prompt?.value as string, interaction);
 
     const continueButton = new ButtonBuilder()
     .setCustomId("continue")
@@ -59,11 +59,11 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     createCollector(rep, interaction, gptRep, row);
 }
 
-async function askGPT(prompt: string, i: CommandInteraction<CacheType> | ButtonInteraction<CacheType>, prevRep?: ChatMessage): Promise<ChatMessage> {
+async function askGPT(prompt: string, i: CommandInteraction<CacheType> | ButtonInteraction<CacheType> | ModalSubmitInteraction<CacheType>, prevRep?: ChatMessage): Promise<ChatMessage> {
     const api = new ChatGPTUnofficialProxyAPI({
         accessToken: config.authGPT,
-        // apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
-        apiReverseProxyUrl: "http://localhost:9090/api/conversation"
+        apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
+        // apiReverseProxyUrl: "https://xrkaxfx-juju.eu1.pitunnel.com/api/conversation"
     });
     
     let count = 0;
@@ -86,10 +86,11 @@ async function askGPT(prompt: string, i: CommandInteraction<CacheType> | ButtonI
     );
 
     console.log(res);
+    gptRep = res;
     return res;
 }
 
-async function createCollector(rep: Message<boolean>, previousInteraction: CommandInteraction<CacheType> | ButtonInteraction<CacheType>, gptRep: ChatMessage, row: ActionRowBuilder) {
+async function createCollector(rep: Message<boolean>, previousInteraction: CommandInteraction<CacheType> | ButtonInteraction<CacheType> | ModalSubmitInteraction<CacheType>, gptRep: ChatMessage, row: ActionRowBuilder) {
     const collector = rep?.createMessageComponentCollector({ 
         componentType: ComponentType.Button,
     });
@@ -102,7 +103,6 @@ async function createCollector(rep: Message<boolean>, previousInteraction: Comma
         await previousInteraction.editReply({ components: [] });
         
         if (interaction.isButton()) {
-            // await interaction.deferReply({ ephemeral: false });
             if (interaction.customId === "continue") {
                 await interaction.deferReply({ ephemeral: false });
 
@@ -111,13 +111,7 @@ async function createCollector(rep: Message<boolean>, previousInteraction: Comma
                 createCollector(rep, interaction, res, row);
 
             } else if (interaction.customId === "newMessage") {
-                // clearTimeout(time);
-                // const res = await askGPT("", interaction);
-                // await interaction.editReply({content: res.text, components: [row] as any});
                 await textPromptModal(interaction);
-                const rep = await interaction.editReply({ content: "TODO" });
-                console.log("TODO new message in conversation");
-
             } else if (interaction.customId === "uneAutre") {
                 await interaction.deferReply({ ephemeral: false });
 
@@ -132,73 +126,50 @@ async function createCollector(rep: Message<boolean>, previousInteraction: Comma
 async function textPromptModal(interaction: ButtonInteraction<CacheType>) {
 
     const modal = new ModalBuilder()
-        .setCustomId("myModal")
-        .setTitle("My Modal");
+        .setCustomId("promptGPTmodal")
+        .setTitle("GPT Prompt");
 
-    // Add components to modal
 
-    // Create the text input components
     const favoriteColorInput = new TextInputBuilder()
-        .setCustomId("favoriteColorInput")
-        // The label is the prompt the user sees for this input
-        .setLabel("What's your favorite color?")
-        // Short means only a single line of text
+        .setCustomId("PromptGPT")
+        .setLabel("Prompt a envoyer dans la même conversation")
         .setStyle(TextInputStyle.Short);
 
-    const hobbiesInput = new TextInputBuilder()
-        .setCustomId("hobbiesInput")
-        .setLabel("What's some of your favorite hobbies?")
-        // Paragraph means multiple lines of text.
-        .setStyle(TextInputStyle.Paragraph);
-
-    // An action row only holds one text input,
-    // so you need one action row per text input.
     const firstActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(favoriteColorInput);
-    const secondActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(hobbiesInput);
+    modal.addComponents(firstActionRow);
 
-    // Add inputs to the modal
-    modal.addComponents(firstActionRow, secondActionRow);
-
-    // Show the modal to the user
   await interaction.showModal(modal);
 }
 
+export async function modalProcess(interaction: ModalSubmitInteraction<CacheType>) {
+    const gptPrompt = interaction.fields.getTextInputValue("PromptGPT");
+    console.log(gptPrompt);
+    
+    const res = await askGPT(gptPrompt, interaction, gptRep);
 
-// export async function execute(interaction: CommandInteraction) {
-//     console.log(interaction.channelId); 
-//     if (interaction.channelId !== "1130252359927349280" && interaction.channelId !== "1129414570348384256") {
-//         return interaction.reply("Cette commande est disponible que dans le channel Chat-GPT");
-//     }
+    const continueButton = new ButtonBuilder()
+    .setCustomId("continue")
+    .setLabel("Continuer La réponse")
+    .setStyle(ButtonStyle.Primary)
+    .setEmoji("⏩");
 
-//     console.log("gpt2");
-//     const modal = new ModalBuilder()
-// 			.setCustomId("myModal")
-// 			.setTitle("My Modal");
+    const uneAutreButton = new ButtonBuilder()
+    .setCustomId("uneAutre")
+    .setLabel("Autre réponse")
+    .setStyle(ButtonStyle.Success)
+    .setEmoji("1️⃣");
 
-// 		// Add components to modal
+    const newMessageButton = new ButtonBuilder()
+    .setCustomId("newMessage")
+    .setLabel("Continuer la conversation")
+    .setStyle(ButtonStyle.Secondary)
+    .setEmoji("⚡");
 
-// 		// Create the text input components
-// 		const favoriteColorInput = new TextInputBuilder()
-// 			.setCustomId("favoriteColorInput")
-// 		    // The label is the prompt the user sees for this input
-// 			.setLabel("What's your favorite color?")
-// 		    // Short means only a single line of text
-// 			.setStyle(TextInputStyle.Short);
 
-// 		const hobbiesInput = new TextInputBuilder()
-// 			.setCustomId("hobbiesInput")
-// 			.setLabel("What's some of your favorite hobbies?")
-// 		    // Paragraph means multiple lines of text.
-// 			.setStyle(TextInputStyle.Paragraph);
+    const row = new ActionRowBuilder();
+    row.addComponents(continueButton, uneAutreButton, newMessageButton);
+    
+    const rep = await interaction.editReply({content: gptRep.text, components: [row] as any});
 
-// 		// An action row only holds one text input,
-// 		// so you need one action row per text input.
-// 		const firstActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(favoriteColorInput);
-// 		const secondActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(hobbiesInput);
-
-// 		// Add inputs to the modal
-// 		modal.addComponents(firstActionRow, secondActionRow);
-
-// 		// Show the modal to the user
-// 		await interaction.showModal(modal);
-// }
+    createCollector(rep, interaction, res, row);
+}

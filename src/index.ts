@@ -2,6 +2,7 @@ import { Client, Events, IntentsBitField, GatewayIntentBits, ActivityType, Butto
 import { config } from "./config";
 import { commands } from "./commands";
 import { deployCommands } from "./deploy-commands";
+import { modalProcess } from "./commands/gpt";
 import { createRoleButtons } from "./messages/roles-messages";
 // import { Authenticator } from "./GPT-token/token-gpt";
 import { getToken } from "./GPT-token/token-pyFile";
@@ -43,7 +44,6 @@ client.on(Events.GuildCreate, async (guild) => {
 });
 
 client.on("interactionCreate", async (interaction: any) => {
-  console.log("31");
   try {
     if (interaction.customId === "stop-button") {
       return;
@@ -64,12 +64,10 @@ client.on("interactionCreate", async (interaction: any) => {
 
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isModalSubmit()) return;
-  if (interaction.customId === "myModal") {
+  if (interaction.customId === "promptGPTmodal") {
     await interaction.reply({ content: "Your submission was received successfully!" });
 
-    const favoriteColor = interaction.fields.getTextInputValue("favoriteColorInput");
-    const hobbies = interaction.fields.getTextInputValue("hobbiesInput");
-    console.log({ favoriteColor, hobbies });
+    modalProcess(interaction);
   }
 });
 
