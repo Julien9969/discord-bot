@@ -6,6 +6,7 @@ import { modalProcess } from "./commands/gpt";
 import { createRoleButtons } from "./messages/roles-messages";
 // import { Authenticator } from "./GPT-token/token-gpt";
 import { getToken } from "./GPT-token/token-pyFile";
+import * as fs from "fs";
 
 const client = new Client({ intents: [
 	IntentsBitField.Flags.Guilds,
@@ -24,7 +25,7 @@ client.once(Events.ClientReady, async (c: Client<true>) => {
     console.log("No guilds found");
     return;
   }
-  // await deployCommands({ guildId: guild.id });
+  await deployCommands({ guildId: guild.id });
   console.log(`Joined a new guild: ${guild.name}!`);
 
   client.user?.setActivity("Démonter sa tente", { 
@@ -40,7 +41,7 @@ client.once(Events.ClientReady, async (c: Client<true>) => {
 
 client.on(Events.GuildCreate, async (guild) => {
   console.log(`Joined a new guild: ${guild.name}!`);
-  // resiter here when bot is over
+  // regidter here when bot is over
 });
 
 client.on("interactionCreate", async (interaction: any) => {
@@ -68,6 +69,13 @@ client.on("interactionCreate", async (interaction) => {
     await interaction.reply({ content: "Your submission was received successfully!" });
 
     modalProcess(interaction);
+  }
+});
+
+client.on(Events.MessageDelete, (deletedMessage) => {
+  console.log(`A message with content "${deletedMessage.components}" was deleted.`);
+  if (deletedMessage.components) {
+    createRoleButtons(client);
   }
 });
 
