@@ -25,8 +25,10 @@ client.once(Events.ClientReady, async (c: Client<true>) => {
     console.log("No guilds found");
     return;
   }
-  await deployCommands({ guildId: guild.id });
-  console.log(`Joined a new guild: ${guild.name}!`);
+  client.guilds.cache.forEach(async (guild) => {
+    await deployCommands({ guildId: guild.id });
+    console.log(`Joined a new guild: ${guild.name}!`);
+  });
 
   client.user?.setActivity("Démonter sa tente", { 
     type: ActivityType.Streaming,
