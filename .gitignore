@@ -1,6 +1,8 @@
 node_modules
 **/roles-messages.json
 **/time-ranking-db.json
+time-ranking-db.json
+roles-messages.json
 .env
 package-lock.json
 yarn.lock
