@@ -28,7 +28,7 @@ client.once(Events.ClientReady, async (c: Client<true>) => {
     return;
   }
   client.guilds.cache.forEach(async (guild) => {
-    // await deployCommands({ guildId: guild.id });
+    await deployCommands({ guildId: guild.id });
     console.log(`Joined a new guild: ${guild.name}!`);
   });
 
