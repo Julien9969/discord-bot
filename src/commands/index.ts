@@ -5,6 +5,7 @@ import * as dm from "./dm";
 import * as hymne from "./hymne";
 import * as gpt from "./gpt";
 import * as roles from "./roles";
+import * as ranking from "./ranking";
 
 export const commands = {
   ping,
@@ -13,5 +14,6 @@ export const commands = {
   dm,
   gpt,
   hymne,
-  roles
+  roles,
+  ranking
 };

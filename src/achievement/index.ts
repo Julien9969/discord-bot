@@ -59,7 +59,7 @@ export async function achievement(client: Client<true>) {
 
     setInterval(async () => {
         await updateRanking(client);
-    }, 1000 * 60 * 0.1);
+    }, 1000 * 60 * 3);
 }
 
 
@@ -81,21 +81,23 @@ async function registerMembersInVoiceChannel(client: Client<true>) {
 }
 
 async function updateRankingOnLeave(member: GuildMember) {
-    const guildVoiceChannelData: GuildRanking = await readRanking();
+    let guildVoiceChannelData: GuildRanking = await readRanking();
 
-    await updateMemberTiming(member, guildVoiceChannelData);
+    guildVoiceChannelData = await updateMemberTiming(member, guildVoiceChannelData);
+
 
     fs.writeFileSync("src/achievement/time-ranking-db.json", JSON.stringify(guildVoiceChannelData, null, 4));
 }
 
 async function updateRanking(client: Client<true>) {
-    const guildVoiceChannelData = await readRanking();
+    let guildVoiceChannelData = await readRanking();
 
-    voiceChannelUsers.forEach(async (user) => {
-        console.log("user: ", user.userName);
+    const userUpdatePromises = Array.from(voiceChannelUsers.values()).map(async (user) => {
         const member = await client.guilds.cache.get(user.guildId)?.members.fetch(user.userId);
+        
         if (member?.voice.channel) {
-            await updateMemberTiming(member, guildVoiceChannelData);
+            guildVoiceChannelData = await updateMemberTiming(member, guildVoiceChannelData);
+
             voiceChannelUsers.set(member.id, {
                 guildId: member.guild.id,
                 userId: member.id,
@@ -104,16 +106,17 @@ async function updateRanking(client: Client<true>) {
             });
         }
     });
+
+    await Promise.all(userUpdatePromises);
     
-    console.log("guildVoiceChannelData: ", guildVoiceChannelData);
     fs.writeFileSync("src/achievement/time-ranking-db.json", JSON.stringify(guildVoiceChannelData, null, 4));
 }
 
-async function updateMemberTiming(member: GuildMember, guildVoiceChannelData: GuildRanking) {
+async function updateMemberTiming(member: GuildMember, guildVoiceChannelData: GuildRanking): Promise<GuildRanking> {
     const guildId = member.guild.id;
     const memberFind = voiceChannelUsers.get(member.id);
 
-    if (!memberFind) return;
+    if (!memberFind) return {...guildVoiceChannelData};
 
     const durationInS = (Date.now() - memberFind.joinTime) / 1000;
 
@@ -136,9 +139,7 @@ async function updateMemberTiming(member: GuildMember, guildVoiceChannelData: Gu
         }
     }
 
-    console.log(guildVoiceChannelData);
-
-    // return guildVoiceChannelData;
+    return {...guildVoiceChannelData};
 }
 
 async function readRanking(): Promise<GuildRanking> {
