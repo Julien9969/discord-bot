@@ -11,7 +11,7 @@ const options = {
 export function getToken() {
     PythonShell.run("OpenAIAuth.py", options).then((message: string[]) => {
         // results is an array of messages printed by the Python script
-        console.log("Results:", message[0]);
+        console.log("GPT token received");
         config.authGPT = message[0];
     });
 }

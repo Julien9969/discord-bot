@@ -8,6 +8,7 @@ import { createRoleButtons } from "./messages/roles-messages";
 import { getToken } from "./GPT-token/token-pyFile";
 import * as fs from "fs";
 import { RoleMessageData } from "./interface/role-message-data";
+import { achievement } from "./achievement";
 
 const client = new Client({ intents: [
 	IntentsBitField.Flags.Guilds,
@@ -27,7 +28,7 @@ client.once(Events.ClientReady, async (c: Client<true>) => {
     return;
   }
   client.guilds.cache.forEach(async (guild) => {
-    await deployCommands({ guildId: guild.id });
+    // await deployCommands({ guildId: guild.id });
     console.log(`Joined a new guild: ${guild.name}!`);
   });
 
@@ -36,10 +37,10 @@ client.once(Events.ClientReady, async (c: Client<true>) => {
     name: "Démonter sa tente",
     url: "https://www.youtube.com/watch?v=uO8SeXh_LaA"
   });
-  createRoleButtons(c);
-
-  getToken();
   
+  createRoleButtons(c);
+  // getToken();
+  achievement(c);
 });
 
 client.on(Events.GuildCreate, async (guild) => {
@@ -71,14 +72,13 @@ client.on("interactionCreate", async (interaction) => {
   if (!interaction.isModalSubmit()) return;
   if (interaction.customId === "promptGPTmodal") {
     await interaction.reply({ content: "Your submission was received successfully!" });
-
     modalProcess(interaction);
   }
 });
 
 client.on(Events.MessageDelete, (deletedMessage) => {
-  console.log(`A message with content "${deletedMessage.components}" was deleted.`);
   if (deletedMessage.components) {
+    console.log("Roles menu deleted");
     const rolesMessages = JSON.parse(fs.readFileSync("./src/messages/roles-messages.json").toString()) as RoleMessageData[];
     const index = rolesMessages.findIndex((roleMessage) => roleMessage.messageId === deletedMessage.id);
     rolesMessages.splice(index, 1);
