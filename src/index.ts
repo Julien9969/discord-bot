@@ -7,6 +7,7 @@ import { createRoleButtons } from "./messages/roles-messages";
 // import { Authenticator } from "./GPT-token/token-gpt";
 import { getToken } from "./GPT-token/token-pyFile";
 import * as fs from "fs";
+import { RoleMessageData } from "./interface/role-message-data";
 
 const client = new Client({ intents: [
 	IntentsBitField.Flags.Guilds,
@@ -43,6 +44,7 @@ client.once(Events.ClientReady, async (c: Client<true>) => {
 
 client.on(Events.GuildCreate, async (guild) => {
   console.log(`Joined a new guild: ${guild.name}!`);
+  await deployCommands({ guildId: guild.id });
   // regidter here when bot is over
 });
 
@@ -77,7 +79,10 @@ client.on("interactionCreate", async (interaction) => {
 client.on(Events.MessageDelete, (deletedMessage) => {
   console.log(`A message with content "${deletedMessage.components}" was deleted.`);
   if (deletedMessage.components) {
-    createRoleButtons(client);
+    const rolesMessages = JSON.parse(fs.readFileSync("./src/messages/roles-messages.json").toString()) as RoleMessageData[];
+    const index = rolesMessages.findIndex((roleMessage) => roleMessage.messageId === deletedMessage.id);
+    rolesMessages.splice(index, 1);
+    fs.writeFileSync("./src/messages/roles-messages.json", JSON.stringify(rolesMessages, null, 4));
   }
 });
 

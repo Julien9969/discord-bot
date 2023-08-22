@@ -1,5 +1,5 @@
 node_modules
-
+**/roles-messages.json
 .env
 package-lock.json
 yarn.lock
