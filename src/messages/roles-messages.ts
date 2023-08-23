@@ -1,18 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, Collection, ComponentType, GuildMemberRoleManager, Message, TextBasedChannel } from "discord.js";
 import * as fs from "fs";
 import { RoleMessageData } from "../interface/role-message-data";
-// const roles = [
-//     {
-//         id: "1001853352700805182",
-//         name: "Rat",
-//         emoji: "🐀" as string
-//     },
-//     {
-//         id: "852635795906625597",
-//         name: "Peuple",
-//         emoji: "👨‍🌾" as string
-//     },
-// ];
 
 function readRolesMessages() {
     try {
