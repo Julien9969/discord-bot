@@ -13,7 +13,6 @@ function readRolesMessages() {
 
 export async function createRoleButtons(c: Client<true>) {
     const rolesMessages = readRolesMessages();
-    // if (rolesMessages.length === 0) return;	
 
     rolesMessages.forEach(async (roleMessage) => {
         buildButtons(c, roleMessage);
