@@ -106,7 +106,6 @@ async function updateRanking(client: Client<true>) {
             });
         }
     });
-
     await Promise.all(userUpdatePromises);
     
     fs.writeFileSync("src/achievement/time-ranking-db.json", JSON.stringify(guildVoiceChannelData, null, 4));
