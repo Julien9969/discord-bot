@@ -84,7 +84,7 @@ async function updateRankingOnLeave(member: GuildMember) {
     let guildVoiceChannelData: GuildRanking = await readRanking();
 
     guildVoiceChannelData = await updateMemberTiming(member, guildVoiceChannelData);
-
+    voiceChannelUsers.delete(member.id);
 
     fs.writeFileSync("src/achievement/time-ranking-db.json", JSON.stringify(guildVoiceChannelData, null, 4));
 }
