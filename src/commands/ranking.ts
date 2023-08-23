@@ -18,6 +18,10 @@ export async function execute(interaction: CommandInteraction) {
     };
     const embed = await generateLeaderboard(option);
 
+    setTimeout(() => {
+        interaction.deleteReply();
+    }, 2 * 60 * 1000);
+
     return interaction.reply({ embeds: [embed] });
 }
 
