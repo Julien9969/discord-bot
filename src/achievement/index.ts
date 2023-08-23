@@ -146,6 +146,7 @@ async function readRanking(): Promise<GuildRanking> {
         const data = fs.readFileSync("src/achievement/time-ranking-db.json", "utf-8");
         return JSON.parse(data) as GuildRanking;
     } catch (error) {
+        fs.writeFileSync("src/achievement/time-ranking-db.json", JSON.stringify({}, null, 4), "utf-8");
         return {};
     }
 }

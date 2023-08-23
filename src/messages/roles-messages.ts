@@ -15,8 +15,12 @@ import { RoleMessageData } from "../interface/role-message-data";
 // ];
 
 function readRolesMessages() {
-    const rolesMessages = JSON.parse(fs.readFileSync("./src/messages/roles-messages.json").toString()) as RoleMessageData[];
-    return rolesMessages;
+    try {
+        return JSON.parse(fs.readFileSync("./src/messages/roles-messages.json").toString()) as RoleMessageData[];
+    } catch (error) {
+        fs.writeFileSync("./src/messages/roles-messages.json", JSON.stringify([], null, 4), "utf-8");
+        return [];
+    }
 }
 
 export async function createRoleButtons(c: Client<true>) {
