@@ -35,6 +35,7 @@ export async function achievement(client: Client<true>) {
         const newChannel = newState.channel;
 
         if (!oldChannel && newChannel) {
+            console.log(`${getDate()} ${member.displayName} joins ${newChannel.name}.`);
             voiceChannelUsers.set(member.id, {
                 guildId: member.guild.id,
                 userId: member.id,
@@ -47,7 +48,7 @@ export async function achievement(client: Client<true>) {
             const userRecord = voiceChannelUsers.get(member.id);
             if (userRecord) {
                 const durationInS = (Date.now() - userRecord.joinTime) / 1000;
-                console.log(`${member.displayName} left ${oldChannel.name} after ${durationInS}s.`);
+                console.log(`${getDate()} ${member.displayName} left ${oldChannel.name} after ${durationInS}s.`);
 
                 await updateRankingOnLeave(member);
                 voiceChannelUsers.delete(member.id);
@@ -68,7 +69,7 @@ async function registerMembersInVoiceChannel(client: Client<true>) {
         if (!guild) return;
         guild.members.cache.forEach((member) => {
             if (member.voice.channel) {
-                console.log(`register ${member.displayName} that was in ${member.voice.channel.name}.`);
+                console.log(`${getDate()} register ${member.displayName} that was in ${member.voice.channel.name}.`);
                 voiceChannelUsers.set(member.id, {
                     guildId: guild.id,
                     userId: member.id,
@@ -151,4 +152,6 @@ async function readRanking(): Promise<GuildRanking> {
     }
 }
 
-
+function getDate(): string {
+    return new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
+}
