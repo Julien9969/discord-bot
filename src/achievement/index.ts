@@ -12,9 +12,13 @@ export async function achievement(client: Client<true>) {
         console.log("Message created : " + number % 7 + "");
 
         const insultes = JSON.parse(fs.readFileSync("src/achievement/insultes.json", "utf-8")) as string[];
-        console.log(insultes);
         if (number % 7 === 0) {
-            message.reply(insultes[Math.floor(Math.random() * insultes.length)]);
+            const rep = await message.reply(insultes[Math.floor(Math.random() * insultes.length)]);
+
+            setTimeout(() => {
+                rep.delete();
+            }, 1000 * 20);
+
         }
 
     });
