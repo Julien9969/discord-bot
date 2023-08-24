@@ -8,7 +8,15 @@ export async function achievement(client: Client<true>) {
     console.log("Achievment started");
 
     client.on(Events.MessageCreate, (message: Message<boolean>) => {
-        console.log("Message created");
+        const number = Math.floor(Math.random() * 100);
+        console.log("Message created : " + number % 7 + "");
+
+        const insultes = JSON.parse(fs.readFileSync("src/achievement/time-ranking-db.json", "utf-8")) as string[];
+
+        if (number % 7 === 0) {
+            message.reply(insultes[Math.floor(Math.random() * insultes.length)]);
+        }
+
     });
 
     client.on(Events.MessageDelete, (member: Message<boolean> | PartialMessage) => {
