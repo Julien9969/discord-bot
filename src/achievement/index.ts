@@ -17,10 +17,8 @@ export async function achievement(client: Client<true>) {
 
             setTimeout(() => {
                 rep.delete();
-            }, 1000 * 20);
-
+            }, 1000 * 7);
         }
-
     });
 
     client.on(Events.MessageDelete, (member: Message<boolean> | PartialMessage) => {
