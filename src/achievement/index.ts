@@ -7,7 +7,7 @@ const voiceChannelUsers: Map<string, VoiceChannelUser> = new Map();
 export async function achievement(client: Client<true>) {
     console.log("Achievment started");
 
-    client.on(Events.MessageCreate, (message: Message<boolean>) => {
+    client.on(Events.MessageCreate, async (message: Message<boolean>) => {
         const number = Math.floor(Math.random() * 100);
         console.log("Message created : " + number % 7 + "");
 
