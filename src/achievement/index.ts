@@ -11,8 +11,8 @@ export async function achievement(client: Client<true>) {
         const number = Math.floor(Math.random() * 100);
         console.log("Message created : " + number % 7 + "");
 
-        const insultes = JSON.parse(fs.readFileSync("src/achievement/time-ranking-db.json", "utf-8")) as string[];
-
+        const insultes = JSON.parse(fs.readFileSync("src/achievement/insultes.json", "utf-8")) as string[];
+        console.log(insultes);
         if (number % 7 === 0) {
             message.reply(insultes[Math.floor(Math.random() * insultes.length)]);
         }
