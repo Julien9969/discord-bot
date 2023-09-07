@@ -6,6 +6,7 @@ import * as hymne from "./hymne";
 import * as gpt from "./gpt";
 import * as roles from "./roles";
 import * as ranking from "./ranking";
+import * as pokehunt from "./pokehunt";
 
 export const commands = {
   ping,
@@ -15,5 +16,6 @@ export const commands = {
   gpt,
   hymne,
   roles,
-  ranking
+  ranking,
+  pokehunt,
 };

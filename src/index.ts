@@ -39,7 +39,7 @@ client.once(Events.ClientReady, async (c: Client<true>) => {
   });
   
   createRoleButtons(c);
-  getToken();
+  // getToken();
   achievement(c);
 });
 
