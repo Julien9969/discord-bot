@@ -66,7 +66,7 @@ export async function execute(interaction: CommandInteraction) {
 
     // Remember to move in minecraft
     antiAfkInterval = setInterval(() => {
-        player.play(createAudioResources(0.5));
+        player.play(createAudioResources(0.2));
         console.log("anti afk sound played");
     }, 1000 * 60 * 15);
 
@@ -86,8 +86,8 @@ export async function execute(interaction: CommandInteraction) {
     const timeToLeg: number = params.value as number; 
 
     legInterval = setInterval(() => {
-        player.play(createAudioResources(0.5));
-        setTimeout(() => { player.play(createAudioResources(0.5)); }, 500);
+        player.play(createAudioResources(0.3));
+        setTimeout(() => { player.play(createAudioResources(0.3)); }, 500);
         const channel = interaction.guild?.channels.cache.get(interaction.channelId) as TextBasedChannel;
         channel.send("C'est l'heure du légendaire !");
         console.log("legendaire time");
