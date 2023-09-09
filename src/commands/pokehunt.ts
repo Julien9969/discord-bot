@@ -96,9 +96,9 @@ export async function execute(interaction: CommandInteraction) {
 
     interaction.reply("Timer pour le prochain legendaire lancé temps : " + timeToLeg + "mins");
 
-    let tempsRestant = timeToLeg * 60;
+    let tempsRestant = timeToLeg * 60 - 10;
     const updateMess = setInterval(() => {
-        interaction.editReply("Timer pour le prochain légendaire lancé temps : " + timeToLeg + " mins\nTemps restant : " + Math.floor(tempsRestant / 60) + "h" + (tempsRestant % 60) + "min");
+        interaction.editReply("Timer pour le prochain légendaire lancé temps : " + timeToLeg + " mins\nTemps restant : " + Math.floor(tempsRestant / 60) + "mins" + (tempsRestant % 60) + "s");
         tempsRestant -= 10;
         if (tempsRestant <= 0)
             clearInterval(updateMess);
