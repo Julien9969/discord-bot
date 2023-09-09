@@ -87,6 +87,7 @@ export async function execute(interaction: CommandInteraction) {
 
     legInterval = setInterval(() => {
         player.play(createAudioResources(0.5));
+        setTimeout(() => { player.play(createAudioResources(0.5)); }, 500);
         const channel = interaction.guild?.channels.cache.get(interaction.channelId) as TextBasedChannel;
         channel.send("C'est l'heure du légendaire !");
         console.log("legendaire time");
