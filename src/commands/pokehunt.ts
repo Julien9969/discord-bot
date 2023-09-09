@@ -96,13 +96,15 @@ export async function execute(interaction: CommandInteraction) {
 
     interaction.reply("Timer pour le prochain legendaire lancé temps : " + timeToLeg + "mins");
 
-    let tempsRestant = timeToLeg * 60 - 10;
+    let tempsRestant = timeToLeg * 60 - 5;
     const updateMess = setInterval(() => {
         interaction.editReply("Timer pour le prochain légendaire lancé temps : " + timeToLeg + " mins\nTemps restant : " + Math.floor(tempsRestant / 60) + "mins" + (tempsRestant % 60) + "s");
-        if (tempsRestant <= 0)
+        if (tempsRestant <= 0) {
+            interaction.deleteReply();
             clearInterval(updateMess);
-        tempsRestant -= 10;
-    }, 10000);
+        }
+        tempsRestant -= 5;
+    }, 5000);
     
 }
 
