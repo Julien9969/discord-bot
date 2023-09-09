@@ -87,7 +87,7 @@ export async function execute(interaction: CommandInteraction) {
 
     legInterval = setInterval(() => {
         player.play(createAudioResources(0.3));
-        setTimeout(() => { player.play(createAudioResources(0.3)); }, 500);
+        setTimeout(() => { player.play(createAudioResources(0.3)); }, 800);
         const channel = interaction.guild?.channels.cache.get(interaction.channelId) as TextBasedChannel;
         channel.send("C'est l'heure du légendaire !");
         console.log("legendaire time");
@@ -95,6 +95,15 @@ export async function execute(interaction: CommandInteraction) {
     }, 1000 * 60 * timeToLeg);
 
     interaction.reply("Timer pour le prochain legendaire lancé temps : " + timeToLeg + "mins");
+
+    let tempsRestant = timeToLeg * 60;
+    const updateMess = setInterval(() => {
+        interaction.editReply("Timer pour le prochain légendaire lancé temps : " + timeToLeg + " mins\nTemps restant : " + Math.floor(tempsRestant / 60) + "h" + (tempsRestant % 60) + "min");
+        tempsRestant -= 10;
+        if (tempsRestant <= 0)
+            clearInterval(updateMess);
+    }, 10000);
+    
 }
 
 function createAudioResources(vol: number) {
