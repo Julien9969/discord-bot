@@ -9,9 +9,14 @@ const options = {
 };
 
 export function getToken() {
-    PythonShell.run("OpenAIAuth.py", options).then((message: string[]) => {
-        // results is an array of messages printed by the Python script
-        console.log("GPT token received");
-        config.authGPT = message[0];
-    });
+
+    try {
+        PythonShell.run("OpenAIAuth.py", options).then((message: string[]) => {
+            // results is an array of messages printed by the Python script
+            console.log("GPT token received");
+            config.authGPT = message[0];
+        });
+    } catch {
+        console.log("Impossible d'executer le fichier .py");
+    }
 }

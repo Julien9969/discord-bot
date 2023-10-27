@@ -17,7 +17,7 @@ export async function achievement(client: Client<true>) {
 
             setTimeout(() => {
                 rep.delete();
-            }, 1000 * 7);
+            }, 1000 * 120);
         }
     });
 

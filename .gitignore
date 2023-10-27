@@ -7,5 +7,6 @@ roles-messages.json
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
-
+Initial D.mp3
 dist
+*.zip

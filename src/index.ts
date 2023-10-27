@@ -39,7 +39,7 @@ client.once(Events.ClientReady, async (c: Client<true>) => {
   });
   
   createRoleButtons(c);
-  // getToken();
+//   getToken();
   achievement(c);
 });
 
@@ -80,7 +80,10 @@ client.on(Events.MessageDelete, (deletedMessage) => {
   if (deletedMessage.components) {
     console.log("Roles menu deleted");
     const rolesMessages = JSON.parse(fs.readFileSync("./src/messages/roles-messages.json").toString()) as RoleMessageData[];
-    const index = rolesMessages.findIndex((roleMessage) => roleMessage.messageId === deletedMessage.id);
+    const index = rolesMessages.findIndex((roleMessage) => roleMessage.messageId === deletedMessage.id && roleMessage.channelId === deletedMessage.channelId);
+    if (index === -1) {
+      return;
+    }
     rolesMessages.splice(index, 1);
     fs.writeFileSync("./src/messages/roles-messages.json", JSON.stringify(rolesMessages, null, 4));
   }

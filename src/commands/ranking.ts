@@ -18,11 +18,17 @@ export async function execute(interaction: CommandInteraction) {
     };
     const embed = await generateLeaderboard(option);
 
+    
     setTimeout(() => {
         interaction.deleteReply();
-    }, 2 * 60 * 1000);
+        console.log("delete ranking");
+    }, 2 * 60000);
 
-    return interaction.reply({ embeds: [embed] });
+    try {
+    interaction.reply({ embeds: [embed] });
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 

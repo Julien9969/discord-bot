@@ -105,7 +105,6 @@ export async function execute(interaction: CommandInteraction) {
         }
         tempsRestant -= 5;
     }, 5000);
-    
 }
 
 function createAudioResources(vol: number) {
